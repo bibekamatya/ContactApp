@@ -1,23 +1,31 @@
-import { useState } from "react";
-import Navbar from "./navbar/navbar";
+import { useContext, useState } from "react";
+import Navbar from "../navbar/navbar";
 import { Person, PersonPlus, House, PhoneFill } from "react-bootstrap-icons";
-import ContactList from "./contactList";
-import { db } from "../config";
+import { ContextProvider } from "../global/ContextProvider";
+import ContactTable from "./../contacTable";
 
 const ContactRegister = () => {
-  const [Name, setName] = useState();
-  const [Phone, setPhone] = useState();
-  const [Address, setAddress] = useState();
-  const [Email, setEmail] = useState();
+  const { dispatch, Contacts } = useContext(ContextProvider);
+
+  const [Name, setName] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [Address, setAddress] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Edit, setEdit] = useState("");
 
   const Submit = (e) => {
     e.preventDefault();
-    db.collection("contact").add({
-      name: Name,
-      phone: Phone,
-      address: Address,
-      email: Email,
-    });
+    dispatch({ type: "ADD_CONTACT", Name, Phone, Address, Email, Contacts });
+    setName("");
+    setPhone("");
+    setAddress("");
+    setEmail("");
+  };
+
+
+  const Clicked = (e) => {
+    console.log(e);
+    setEdit(e);
   };
 
   return (
@@ -117,7 +125,7 @@ const ContactRegister = () => {
           </div>
 
           <div className='col-md-9'>
-            <ContactList />
+            <ContactTable Clicked={Clicked} Edit={Edit} />
           </div>
         </div>
       </div>
