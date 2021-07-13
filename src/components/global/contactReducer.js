@@ -1,7 +1,7 @@
 import { db } from "./../../config";
 
 export const ContactReducer = (state, action) => {
-  var docRef = db.collection("contact");
+  var docRef = db.collection("contactApp");
   var NewContacts;
 
   switch (action.type) {
@@ -12,7 +12,7 @@ export const ContactReducer = (state, action) => {
         alert("number already added");
         return state;
       } else {
-        db.collection("contact").add({
+        db.collection("contactApp").add({
           name: action.Name,
           phone: action.Phone,
           address: action.Address,

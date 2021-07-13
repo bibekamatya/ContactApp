@@ -6,9 +6,10 @@ export const ContextProvider = createContext();
 
 const ContextFun = (props) => {
   const [Contacts, setContacts] = useState([]);
+  const [Edit, setEdit] = useState("");
 
   useEffect(() => {
-    db.collection("contact")
+    db.collection("contactApp")
       .orderBy("name")
       .onSnapshot((snap) => {
         setContacts(
@@ -21,11 +22,17 @@ const ContextFun = (props) => {
       });
   }, []);
 
+  const Clicked = (e) => {
+    setEdit(e);
+  };
+
   const [state, dispatch] = useReducer(ContactReducer);
 
   const Register = () => {};
   return (
-    <ContextProvider.Provider value={{ Register, dispatch, state, Contacts }}>
+    <ContextProvider.Provider
+      value={{ Register, dispatch, state, Contacts, Edit, Clicked }}
+    >
       {props.children}
     </ContextProvider.Provider>
   );
